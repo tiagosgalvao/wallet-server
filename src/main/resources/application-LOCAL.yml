@@ -1,0 +1,53 @@
+# ------------------------------------------------------------------------------
+# Custom properties
+
+kafka:
+  url: localhost:9092
+  topic:
+    audit:
+      name: audit
+      consumer:
+        group: transaction
+    transaction:
+      name: wallet
+      consumer:
+        group: transaction
+
+# ------------------------------------------------------------------------------
+# Spring defined properties
+
+spring:
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wallet?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: password
+
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    properties:
+      hibernate:
+        show_sql: true
+
+logging:
+  level:
+    com.galvao: DEBUG
+    com.galvao.wallet: DEBUG
+    org.springframework: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.hibernate: ERROR
+    org.hibernate.SQL: ERROR
+    org.hibernate.stat.internal: ERROR
+    org.hibernate.type.descriptor.sql.BasicBinder: ERROR
+    #org.hibernate.type: TRACE
+    com.mchange: OFF
+    net.sf: OFF
+    org.springframework.aop.framework.CglibAopProxy: ERROR
+  pattern:
+    console: "%date{'yyyy-MM-dd HH:mm:ss,SSS'} %-5level [%mdc{X-B3-TraceId}/%mdc{X-B3-SpanId}] %logger{1}:%line - %msg%n"

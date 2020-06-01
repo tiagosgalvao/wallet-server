@@ -1,0 +1,91 @@
+# ------------------------------------------------------------------------------
+# Custom properties
+api.info:
+  title: wallet-server
+  description: wallet-server, Grpc Server
+  version: v1
+  email: galvaoti@gmail.com
+  name: Tiago Galvao
+  url: https://www.linkedin.com/in/tiagogalvaosenioritpro
+
+kafka:
+  url: localhost:9092
+  topic:
+    audit:
+      name: audit
+      consumer:
+        group: transaction
+    transaction:
+      name: wallet
+      consumer:
+        group: transaction
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /docs
+
+# ------------------------------------------------------------------------------
+# Spring defined properties
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    session:
+      timeout: 5
+
+grpc:
+  server:
+    port: 9090
+
+spring:
+  application:
+    name: wallet-server
+  messages:
+    basename: text/messages
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wallet?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: connect
+    password: secret
+
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: false
+        format_sql: true
+        use_sql_comments: true
+        hbm2ddl.auto: none
+        auto_close_session: true
+        connection:
+          useUnicode: true
+          characterEncoding: UTF-8
+          charSet: UTF-8
+        generate_statistics: false
+
+logging:
+  level:
+    com.galvao: ERROR
+    com.galvao.wallet: ERROR
+    org.springframework: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.hibernate: ERROR
+    org.hibernate.SQL: ERROR
+    org.hibernate.stat.internal: ERROR
+    org.hibernate.type.descriptor.sql.BasicBinder: ERROR
+    #org.hibernate.type: TRACE
+    com.mchange: OFF
+    net.sf: OFF
+    org.springframework.aop.framework.CglibAopProxy: ERROR
+  pattern:
+    console: "%date{'yyyy-MM-dd HH:mm:ss,SSS'} %-5level [%mdc{X-B3-TraceId}/%mdc{X-B3-SpanId}] %logger{1}:%line - %msg%n"

@@ -1,0 +1,34 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+package com.galvao.wallet.grpc;
+
+message TransactionRequest {
+    int64 userId = 1;
+    double amount = 2;
+    enum Currency {
+        UNKNOWN = 0;
+        GBP = 1;
+        EUR = 2;
+        USD = 3;
+    }
+    Currency currency = 3;
+}
+
+message BalanceRequest {
+    int64 userId = 1;
+}
+
+message BalanceResponse {
+    int64 userId = 1;
+    double gbpAmount = 2;
+    double eurAmount = 3;
+    double usdAmount = 4;
+}
+
+service TransactionService {
+    rpc deposit (TransactionRequest) returns (google.protobuf.Empty);
+    rpc withdraw (TransactionRequest) returns (google.protobuf.Empty);
+    rpc balance (BalanceRequest) returns (BalanceResponse);
+}
