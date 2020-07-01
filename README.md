@@ -1,11 +1,21 @@
-# Wallet Server Application
+# gRPC Wallet Server Application
 
-Minimal [Spring Boot](http://projects.spring.io/spring-boot)
+Me, Tiago Galvao hereby declare: that this code is authentic created by my own authorship, utilizing the listed technologies below. 
+It might or not have also been resulted from for some proof of concept (Poc), personal purposes or even selection process, although the company(ies) 
+involved won`t be disclosed.
+Probably there is a chance that during the development process some references, tutorials, videos from the web or books supported me in order to support 
+best practices resulting in a good application.
+ 
+## Some commonly utilized references:
+
+- [Spring](https://docs.spring.io/spring/docs/current/spring-framework-reference/)
+- [Baeldung](https://www.baeldung.com/spring-tutorial)
 
 ## Requirements
 
 For building and running the application you need:
 
+- [Spring Boot](http://projects.spring.io/spring-boot)
 - [JDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 - [Gradle](https://gradle.org)
 
@@ -17,8 +27,74 @@ This guide walks you through the process of creating an application that accesse
 This is a wallet server application that will keep the track of a users monetary balance in the system. Storing separate balance for different currencies.
 There are three main features: `Deposit` `Withdraw` `Balance`
 
-# Requirements
+## Application Requirements (business rules)
 * The wallet server will keep track of a users monetary balance in the system. There should be separate balance for different currencies.
+
+* The wallet server must expose the interface described below via gRPC.
+
+Interfaces
+
+##Deposit
+
+Deposit funds to the users wallet.
+
+```Input```
+
+• User id
+
+• Amount
+
+• Currency (allowed values are EUR, USD, GBP)
+
+```Output```
+
+• No output needed Errors
+
+• Unknown currency Withdraw
+
+##Withdraw
+
+Withdraw funds from the user wallet.
+
+```Input```
+
+• User id
+
+• Amount
+
+• Currency (allowed values are EUR, USD, GBP)
+
+```Output```
+
+• No output needed Errors
+
+• Unknown currency, insufficient funds Balance
+
+##Balance
+
+Get the users current balance.
+
+```Input```
+
+• User id Output
+
+• The balance of the users account for each currency
+
+##Integration Test
+```
+1. Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+2. Make a deposit of USD 100 to user with id 1.
+3. Check that all balances are correct
+4. Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+5. Make a deposit of EUR 100 to user with id 1.
+6. Check that all balances are correct
+7. Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+8. Make a deposit of USD 100 to user with id 1.
+9. Check that all balances are correct
+10. Make a withdrawal of USD 200 for user with id 1. Must return "ok".
+11. Check that all balances are correct
+12. Make a withdrawal of USD 200 for user with id 1. Must return "insufficient_funds".
+```
 
 ## Programming Languages
 
