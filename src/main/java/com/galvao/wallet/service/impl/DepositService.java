@@ -18,8 +18,8 @@ import javax.transaction.Transactional;
 @Service
 @Qualifier("deposit")
 public class DepositService implements TransactionI {
-	private AccountService accountService;
-	private DepositHistoricRepository depositHistoricRepository;
+	private final AccountService accountService;
+	private final DepositHistoricRepository depositHistoricRepository;
 
 	@Autowired
 	public DepositService(AccountService accountService, DepositHistoricRepository depositHistoricRepository) {

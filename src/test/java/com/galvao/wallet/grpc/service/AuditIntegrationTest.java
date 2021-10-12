@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 @AutoConfigureMockMvc
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("TEST")
+@ActiveProfiles("test")
 public class AuditIntegrationTest extends BaseTest {
 	@MockBean
 	KafkaService kafkaService;

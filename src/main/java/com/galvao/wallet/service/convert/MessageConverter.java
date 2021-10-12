@@ -1,9 +1,9 @@
 package com.galvao.wallet.service.convert;
 
 import com.galvao.wallet.enums.Currency;
+import com.galvao.wallet.exception.UnknownCurrencyException;
 import com.galvao.wallet.grpc.TransactionRequest;
 import com.galvao.wallet.grpc.service.dto.TransactionDto;
-import com.galvao.wallet.infrastructure.exception.UnknownCurrencyException;
 import com.galvao.wallet.infrastructure.kafka.message.TransactionKafkaDto;
 import com.galvao.wallet.service.enums.TransactionType;
 

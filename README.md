@@ -105,8 +105,6 @@ This project is authored in Java.
 *   [Apache Kafka](https://kafka.apache.org/) - Distributed streaming platform
 * 	[Flyway](https://flywaydb.org/) - Version control for database
 * 	[Git](https://git-scm.com/) - Free and Open-Source distributed version control system
-*   [Google JIB](https://cloud.google.com/blog/products/gcp/introducing-jib-build-java-docker-images-better) - Jib is a fast and simple container image builder 
-that handles all the steps of packaging your application into a container image
 * 	[Lombok](https://projectlombok.org/) - Never write another getter or equals method again, with one annotation your class has a fully featured builder, 
 Automate your logging variables, and much more
 * 	[MySQL](https://www.mysql.com/) - Open-Source Relational Database Management System

@@ -1,8 +1,8 @@
 package com.galvao.wallet.service.impl;
 
+import com.galvao.wallet.exception.BusinessException;
 import com.galvao.wallet.grpc.service.dto.TransactionDto;
 import com.galvao.wallet.infrastructure.entity.impl.AccountEntity;
-import com.galvao.wallet.infrastructure.exception.BusinessException;
 import com.galvao.wallet.infrastructure.kafka.message.TransactionKafkaDto;
 import com.galvao.wallet.infrastructure.kafka.producer.AsyncProducerService;
 import com.galvao.wallet.service.TransactionI;

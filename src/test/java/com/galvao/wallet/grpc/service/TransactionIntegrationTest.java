@@ -40,7 +40,7 @@ import static org.junit.Assert.assertEquals;
 @AutoConfigureMockMvc
 @DirtiesContext
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("TEST")
+@ActiveProfiles("test")
 public class TransactionIntegrationTest extends BaseTest {
 
 	/*

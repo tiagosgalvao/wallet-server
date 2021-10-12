@@ -1,7 +1,7 @@
 package com.galvao.wallet.infrastructure.entity.impl;
 
-import com.galvao.wallet.infrastructure.entity.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.galvao.wallet.infrastructure.entity.BaseEntity;
 
 import java.util.List;
 

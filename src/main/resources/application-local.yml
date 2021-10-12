@@ -7,37 +7,15 @@ kafka:
 # ------------------------------------------------------------------------------
 # Spring defined properties
 
-server:
-  port: 8080
-  servlet:
-    context-path: /api
-    session:
-      timeout: 5
-
-grpc:
-  server:
-    port: 9090
-
 spring:
-  application.name: wallet-server
 
   kafka:
     properties:
       bootstrap.servers: localhost:9092
       schema.registry.url: http://localhost:8089
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer
-    consumer:
-      group-id: ${spring.application.name}
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer
-      properties:
-        derive.type: true
-    streams.application-id: ${spring.application.name}
 
   flyway:
-    connect-retries: 15
+    connect-retries: 10
     enabled: true
     locations: classpath:db/migration
     clean-on-validation-error: true
@@ -47,22 +25,17 @@ spring:
       continue-on-error: true
 
   datasource:
-    url: jdbc:postgresql://localhost:26257/wallet?sslmode=require&reWriteBatchedInserts=true
+    url: jdbc:postgresql://localhost:26257/wallet
     username: app_user
-    password: app_password
     driver-class-name: org.postgresql.Driver
-
     hikari:
-      max-lifetime: 600000 #10m
       pool-name: db-conn-pool
-      initialization-fail-timeout: -1  # allow startup when db off
-      minimum-idle: 0                  # allow startup when db off
+      max-lifetime: 600000
+      minimum-idle: 10
       maximum-pool-size: 30
-      connection-timeout: 10000 #10s
+      connection-timeout: 10000
       auto-commit: false
       leak-detection-threshold: 120000
-      idle-timeout: 300000 #5m
-      validation-timeout: 1000 #1s
 
   jpa:
     open-in-view: false
@@ -72,7 +45,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        show_sql: false
+        show_sql: true
         format_sql: true
         use_sql_comments: true
         hbm2ddl.auto: none
@@ -91,10 +64,20 @@ spring:
       write_dates_as_timestamps: false
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
 
+  data:
+    rest:
+      base-path: /api
+    web:
+      pageable:
+        max-page-size: 0x7fffffff
+
+# ------------------------------------------------------------------------------
+# logback properties
+
 logging:
   level:
-    com.galvao: ERROR
-    com.galvao.wallet: ERROR
+    com.galvao: DEBUG
+    com.galvao.wallet: DEBUG
     org.springframework: INFO
     org.springframework.web: INFO
     org.springframework.security: INFO

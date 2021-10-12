@@ -2,13 +2,13 @@ package com.galvao.wallet.grpc.service;
 
 import com.google.protobuf.Empty;
 
+import com.galvao.wallet.exception.BusinessException;
 import com.galvao.wallet.grpc.BalanceRequest;
 import com.galvao.wallet.grpc.BalanceResponse;
 import com.galvao.wallet.grpc.TransactionRequest;
 import com.galvao.wallet.grpc.TransactionServiceGrpc;
 import com.galvao.wallet.grpc.service.dto.BalanceDto;
 import com.galvao.wallet.grpc.service.dto.TransactionDto;
-import com.galvao.wallet.infrastructure.exception.BusinessException;
 import com.galvao.wallet.service.convert.MessageConverter;
 import com.galvao.wallet.service.enums.TransactionType;
 import com.galvao.wallet.service.impl.AccountService;
@@ -65,7 +65,7 @@ public class TransactionServiceGrpcImpl extends TransactionServiceGrpc.Transacti
 			transactionManagerService.start(transactionType, transactionDto);
 			responseObserver.onNext(Empty.newBuilder().build());
 			responseObserver.onCompleted();
-		} catch (BusinessException e) {
+		} catch (RuntimeException e) {
 			log.error(RPC_CALL_FAIL, e.getMessage());
 			responseObserver.onError(Status.ABORTED.withCause(e).withDescription(e.getMessage()).asRuntimeException());
 		} catch (Exception e) {

@@ -1,10 +1,10 @@
 package com.galvao.wallet.service.impl;
 
 import com.galvao.wallet.enums.Currency;
+import com.galvao.wallet.exception.InsufficientFoundException;
 import com.galvao.wallet.grpc.service.dto.TransactionDto;
 import com.galvao.wallet.infrastructure.entity.impl.AccountEntity;
 import com.galvao.wallet.infrastructure.entity.impl.WithdrawHistoricEntity;
-import com.galvao.wallet.infrastructure.exception.InsufficientFoundException;
 import com.galvao.wallet.infrastructure.repository.WithdrawHistoricRepository;
 import com.galvao.wallet.service.TransactionI;
 

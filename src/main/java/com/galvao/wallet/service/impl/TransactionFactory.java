@@ -1,6 +1,6 @@
 package com.galvao.wallet.service.impl;
 
-import com.galvao.wallet.infrastructure.exception.UnknownTransactionException;
+import com.galvao.wallet.exception.UnknownTransactionException;
 import com.galvao.wallet.service.TransactionI;
 import com.galvao.wallet.service.enums.TransactionType;
 
