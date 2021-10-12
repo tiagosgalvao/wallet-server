@@ -34,8 +34,10 @@ public class UserAccountEntity extends BaseEntity {
 	@JoinColumn(name = "account_id", nullable = false)
 	private AccountEntity account;
 	@OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private List<DepositHistoricEntity> deposits;
 	@OneToMany(mappedBy = "userAccount", fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private List<WithdrawHistoricEntity> withdraws;
 	@Column
 	private String name;

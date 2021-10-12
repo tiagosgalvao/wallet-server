@@ -107,28 +107,38 @@ This project is authored in Java.
 * 	[Git](https://git-scm.com/) - Free and Open-Source distributed version control system
 * 	[Lombok](https://projectlombok.org/) - Never write another getter or equals method again, with one annotation your class has a fully featured builder, 
 Automate your logging variables, and much more
-* 	[MySQL](https://www.mysql.com/) - Open-Source Relational Database Management System
+* 	[CockroachDB](https://www.cockroachlabs.com/) - Highly evolved database
 * 	[Spring Boot](https://spring.io/projects/spring-boot) - Framework to ease the bootstrapping and development of new Spring Applications
 * 	[TestContainers](https://www.testcontainers.org/) - Lightweight, throwaway instances of common databases
 
-## Running the application locally (pre-requirements)
+## Running the application locally (pre-req)
 
-At first you will need some support applications running such as stream platform and the database.
+At first, you will need some support applications running such as event streaming platform(Apache Kafka) and the database(CockroachDB).
 To make it easy as test environment you can use the docker-compose file available in the project.
 *   [Docker-compose](https://docs.docker.com/compose/gettingstarted/) - Docker Compose first steps - just need to execute the file `docker-compose.yml`
-* Command: `docker-compose -f docker-compose.yml up -d`
+* Command: `docker-compose up -d` (root folder)
 
-* Starting wallet-server_zookeeper_1 ... done
-* Starting wallet-server_kafka_1     ... done
-* Starting wallet-server_db_1        ... done
+* Creating wallet-server_cockroachdb_1 ... done
+* Creating wallet-server_zookeeper_1   ... done
+* Creating wallet-server_kafka_1       ... done
+* Creating wallet-server_schema-registry_1 ... done
+* Creating wallet-server_ksqldb-server_1      ... done
+* Creating wallet-server_schema-registry-ui_1 ... done
+* Creating wallet-server_kafka-rest-proxy_1   ... done
+* Creating wallet-server_kafka-topics-ui_1    ... done
+* Creating wallet-server_ksqldb-cli_1         ... done
 
 Instead of using docker another option could be point the wallet server to standalone zookeeper, kafka and mysql servers, just changing the configurations at
 application.yml
 
 ## Running the application locally
 
-There are several ways to run a Spring Boot application on your local machine. One way is to execute the `main` method in the 
-`com.galvao.wallet.WalletApplication` class from your IDE.
+There are several ways to run a Spring Boot application on your local machine. 
+One way is to execute the `main` method in the`com.galvao.wallet.WalletApplication` class from your IDE
+
+NB! to run locally local profile must be set
+
+using command line `-Dspring.profiles.active=staging`
 
 Alternatively you can use the [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/) like so:
 
@@ -139,10 +149,6 @@ Alternatively you can use the [Spring Boot Gradle plugin](https://docs.spring.io
 * compiles Java classes to the /target directory
 * copies all resources to the /target directory
 * starts an embedded Apache Tomcat server
-
-* Important: to run the integration tests for now is necessary to start the compose in order to have kafka running, 
-the kafka test-containers dependency was added to the project but would be necessary to mock all the returns to make it effectively working,
-instead for now it is in the project just to show as example as it could be used.
 
 ## Folder structure + important files
 
@@ -157,37 +163,33 @@ instead for now it is in the project just to show as example as it could be used
     │   ├── proto                               # contains the protocol buffer file
     │   └── resources
     │       ├── application.yml                 # Common application configuration runnning using docker configs
-    │       └── application-LOCAL.yml           # Overriding configuration specifc to local environment
+    │       └── application-local.yml           # Overriding configuration specifc to local environment
     └── test
         ├── java                                # Sample Testcases
         └── resources
-            └── application-TEST.yml
+            └── application-test.yml
 ```
 
-## Database Migration (Setup to run with a standalone local instance of the database)
+## Database - Flyway Migration
 
-Mysql Docker locally [reference](https://dev.mysql.com/doc/mysql-installation-excerpt/8.0/en/docker-mysql-getting-started.html)
+To bootstrap a cockroach db
+Run built-in sql client:
 ```
-$ docker pull mysql/mysql-server:latest
+docker-compose exec cockroachdb ./cockroach sql --insecure
+```
+
+Run in CLI:
+```
+CREATE DATABASE wallet;
 ```
 ```
-$ docker run --name=mysql1 -e MYSQL_ROOT_HOST=% -p 3306:3306 -d mysql/mysql-server:latest
+CREATE USER app_user;
 ```
-generate password
 ```
-$ docker logs mysql1 2>&1 | grep GENERATED
+GRANT ALL ON DATABASE wallet TO app_user;
 ```
-access db using generated password
-``` 
-$ docker exec -it mysql1 mysql -uroot -p 
 ```
-alter root password
-```
-mysql> ALTER USER 'root'@'%' IDENTIFIED BY 'password';
-```
-create the schema
-```
-mysql> create schema wallet;
+SHOW USERS;
 ```
 
 To make sure the database is up to date, checkout the latest version of the project and from the root folder run:
@@ -198,12 +200,17 @@ $ ./gradlew migrateLocal
 ## External Tools Used
 
 * [BloomRPC](https://appimage.github.io/BloomRPC/) - gRPC client
-* [Kafka Tool](http://www.kafkatool.com/) - GUI application for managing and using Apache Kafka clusters 
+* [Kafka UI](http://localhost:9094/) - UI application for query kafka topics using schema registry
 
 ## Testing the application
 
-Now that the application is running, you can test it. The following examples use the tool `BloomRPC`. The file `Transaction.proto` located at
-`/src/main/proto` can be imported in BloomRPC to test the calls. 
+Now that the application is running, you can test it. 
+The following examples use the tool `BloomRPC`. Import the file `Transaction.proto` located at
+`/src/main/proto` in BloomRPC to test the calls. 
+
+```
+BloomRPC URL: localhost:9090
+```
 
 ## `deposit` method
 
@@ -258,7 +265,7 @@ Possible errors:
 
 ## Integration tests
 
-Is necessary for now to have the docker-compose up, will be created for now some test-topics using the same kafka, but can be mocked also.
-The database used during tests will me created only during the execution using the mysql test-container, so data will be disposed afterwards.
+It's necessary for now to have the docker-compose up, it will be created for now some test-topics using the same kafka, but can be mocked also.
+The database used during tests will be created only during the execution using cockroachDB test-container, therefore the data will be disposed afterwards.
 
 The server application has a very high test coverage, that guarantees that all the scenarios are covered.

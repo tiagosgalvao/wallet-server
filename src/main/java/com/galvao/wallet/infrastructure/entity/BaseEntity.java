@@ -9,26 +9,27 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
+@SuperBuilder
 @NoArgsConstructor
 @MappedSuperclass
 @DynamicUpdate
 public abstract class BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column
 	private Long id;
 	@CreationTimestamp
 	@Column(name = "create_date", nullable = false)
@@ -36,7 +37,8 @@ public abstract class BaseEntity {
 	@UpdateTimestamp
 	@Column(name = "update_date", nullable = false)
 	private LocalDateTime updateDate;
-	@Column(name = "status")
-	@Enumerated(EnumType.STRING)
-	private Status status = Status.ACTIVE;
+
+	@Column
+	@Builder.Default
+	private String status = Status.ACTIVE.name();
 }

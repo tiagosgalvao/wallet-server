@@ -3,6 +3,7 @@ package com.galvao.wallet.grpc.service;
 import com.galvao.wallet.BaseTest;
 import com.galvao.wallet.grpc.BalanceRequest;
 import com.galvao.wallet.grpc.BalanceResponse;
+import com.galvao.wallet.grpc.Currency;
 import com.galvao.wallet.grpc.TransactionRequest;
 import com.galvao.wallet.infrastructure.entity.impl.AccountEntity;
 import com.galvao.wallet.infrastructure.repository.DepositHistoricRepository;
@@ -26,9 +27,9 @@ import java.math.BigDecimal;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
 
-import static com.galvao.wallet.grpc.TransactionRequest.Currency.EUR;
-import static com.galvao.wallet.grpc.TransactionRequest.Currency.GBP;
-import static com.galvao.wallet.grpc.TransactionRequest.Currency.USD;
+import static com.galvao.wallet.grpc.Currency.EUR;
+import static com.galvao.wallet.grpc.Currency.GBP;
+import static com.galvao.wallet.grpc.Currency.USD;
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -64,12 +65,12 @@ public class TransactionIntegrationTest extends BaseTest {
 	@Autowired
 	private WithdrawHistoricRepository withdrawHistoricRepository;
 
-	private static void doWithdraw(Long userId, double amount, TransactionRequest.Currency currency) {
+	private static void doWithdraw(Long userId, double amount, Currency currency) {
 		TransactionRequest request = TransactionRequest.newBuilder().setUserId(userId).setAmount(amount).setCurrency(currency).build();
 		stub.withdraw(request);
 	}
 
-	private static void doDeposit(Long userId, double amount, TransactionRequest.Currency currency) {
+	private static void doDeposit(Long userId, double amount, Currency currency) {
 		TransactionRequest request = TransactionRequest.newBuilder().setUserId(userId).setAmount(amount).setCurrency(currency).build();
 		stub.deposit(request);
 	}

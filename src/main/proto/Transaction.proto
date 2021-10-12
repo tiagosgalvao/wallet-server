@@ -7,13 +7,25 @@ package com.galvao.wallet.grpc;
 message TransactionRequest {
   int64 userId = 1;
   double amount = 2;
-  enum Currency {
-    UNKNOWN = 0;
-    GBP = 1;
-    EUR = 2;
-    USD = 3;
-  }
   Currency currency = 3;
+}
+
+enum Currency {
+  GBP = 0;
+  EUR = 1;
+  USD = 2;
+}
+
+message Transaction {
+  int64 accountId = 1;
+  int64 userId = 2;
+  double amount = 3;
+  Currency currency = 4;
+  enum Type {
+    DEPOSIT = 0;
+    WITHDRAW = 1;
+  }
+  Type type = 5;
 }
 
 message BalanceRequest {

@@ -28,6 +28,7 @@ import lombok.ToString;
 @Table(name = "account")
 public class AccountEntity extends BaseEntity {
 	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private List<UserAccountEntity> users;
 	@Column(name = "gbp_total_amount", nullable = false)
 	private BigDecimal gbpTotalAmount;

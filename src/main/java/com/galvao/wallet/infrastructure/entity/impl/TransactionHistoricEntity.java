@@ -1,14 +1,11 @@
 package com.galvao.wallet.infrastructure.entity.impl;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.galvao.wallet.enums.Currency;
 import com.galvao.wallet.infrastructure.entity.BaseEntity;
 
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -24,10 +21,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @MappedSuperclass
 public class TransactionHistoricEntity extends BaseEntity {
-	@Column(name = "currency", nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Currency currency;
-	@Column(name = "amount", nullable = false)
+	@Column(nullable = false)
+	private String currency;
+	@Column(nullable = false)
 	private BigDecimal amount;
 	@JsonBackReference
 	@ManyToOne
