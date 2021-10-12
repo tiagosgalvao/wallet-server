@@ -1,0 +1,16 @@
+spring:
+  kafka:
+    properties:
+      schema.registry.url: mock://testUrl
+
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8.0.19://localhost:32779/public
+    username: teste@%
+    password: test
+
+# ------------------------------------------------------------------------------
+# Custom properties
+kafka:
+  topics:
+    wallet: wallet-test
