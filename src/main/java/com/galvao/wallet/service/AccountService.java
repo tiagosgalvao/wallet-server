@@ -1,7 +1,7 @@
 package com.galvao.wallet.service;
 
 import com.galvao.wallet.exception.BusinessException;
-import com.galvao.wallet.grpc.service.dto.BalanceDto;
+import com.galvao.wallet.grpc.BalanceResponse;
 import com.galvao.wallet.infrastructure.entity.impl.AccountEntity;
 import com.galvao.wallet.infrastructure.repository.AccountRepository;
 
@@ -17,9 +17,14 @@ public class AccountService {
 
 	private final AccountRepository accountRepository;
 
-	public BalanceDto getBalance(Long userId) {
+	public BalanceResponse getBalance(Long userId) {
 		AccountEntity account = getAccountEntity(userId);
-		return new BalanceDto(userId, account.getGbpTotalAmount(), account.getEurTotalAmount(), account.getUsdTotalAmount());
+		return BalanceResponse.newBuilder()
+				.setUserId(userId)
+				.setGbpAmount(account.getGbpTotalAmount().doubleValue()).
+				setEurAmount(account.getEurTotalAmount().doubleValue())
+				.setUsdAmount(account.getUsdTotalAmount().doubleValue())
+				.build();
 	}
 
 	public AccountEntity getAccountEntity(Long userId) {

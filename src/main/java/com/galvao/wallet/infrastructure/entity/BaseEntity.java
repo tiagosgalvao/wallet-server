@@ -1,6 +1,6 @@
 package com.galvao.wallet.infrastructure.entity;
 
-import com.galvao.wallet.infrastructure.repository.enums.Status;
+import com.galvao.wallet.infrastructure.entity.enums.Status;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;

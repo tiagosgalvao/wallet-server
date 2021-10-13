@@ -1,7 +1,7 @@
 create sequence account_id_seq;
 create table account
 (
-	id               int primary key default nextval('account_id_seq'),
+	id               int primary key         default nextval('account_id_seq'),
 	gbp_total_amount decimal(10, 2) not null default 0,
 	eur_total_amount decimal(10, 2) not null default 0,
 	usd_total_amount decimal(10, 2) not null default 0,
@@ -13,7 +13,7 @@ create table account
 create sequence user_account_id_seq;
 create table user_account
 (
-	id          int primary key default nextval('user_account_id_seq'),
+	id          int primary key    default nextval('user_account_id_seq'),
 	account_id  int       not null,
 	name        string    not null,
 	create_date timestamp not null default now(),
@@ -25,7 +25,7 @@ create table user_account
 create sequence deposit_historic_id_seq;
 create table deposit_historic
 (
-	id          int primary key default nextval('deposit_historic_id_seq'),
+	id          int primary key         default nextval('deposit_historic_id_seq'),
 	user_id     int            not null,
 	currency    string         not null,
 	amount      decimal(10, 2) not null,
@@ -38,7 +38,7 @@ create table deposit_historic
 create sequence withdraw_historic_id_seq;
 create table withdraw_historic
 (
-	id          int primary key default nextval('withdraw_historic_id_seq'),
+	id          int primary key         default nextval('withdraw_historic_id_seq'),
 	user_id     int            not null,
 	currency    string         not null,
 	amount      decimal(10, 2) not null,

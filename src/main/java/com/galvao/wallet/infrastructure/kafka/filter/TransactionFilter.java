@@ -14,6 +14,6 @@ public class TransactionFilter implements RecordFilterStrategy<String, Transacti
 	@Override
 	public boolean filter(ConsumerRecord<String, Transaction> consumerRecord) {
 		return !(WITHDRAW.name().equals(consumerRecord.value().getType().name())
-				   || DEPOSIT.name().equals(consumerRecord.value().getType().name()));
+				|| DEPOSIT.name().equals(consumerRecord.value().getType().name()));
 	}
 }

@@ -7,7 +7,6 @@ import com.galvao.wallet.grpc.BalanceRequest;
 import com.galvao.wallet.grpc.BalanceResponse;
 import com.galvao.wallet.grpc.TransactionRequest;
 import com.galvao.wallet.grpc.TransactionServiceGrpc;
-import com.galvao.wallet.grpc.service.dto.BalanceDto;
 import com.galvao.wallet.service.AccountService;
 import com.galvao.wallet.service.TransactionManagerService;
 
@@ -69,10 +68,7 @@ public class TransactionServiceGrpcImpl extends TransactionServiceGrpc.Transacti
 	public void balance(BalanceRequest request, StreamObserver<BalanceResponse> responseObserver) {
 		log.info("gRPC call - balance {}", request);
 		try {
-			BalanceDto balance = accountService.getBalance(request.getUserId());
-			BalanceResponse balanceResponse = BalanceResponse.newBuilder().setUserId(request.getUserId()).setGbpAmount(balance.getGbpAmount().doubleValue()).
-					setEurAmount(balance.getEurAmount().doubleValue()).setUsdAmount(balance.getUsdAmount().doubleValue()).build();
-			responseObserver.onNext(balanceResponse);
+			responseObserver.onNext(accountService.getBalance(request.getUserId()));
 			responseObserver.onCompleted();
 		} catch (BusinessException e) {
 			log.error(RPC_CALL_FAIL, e.getMessage());
