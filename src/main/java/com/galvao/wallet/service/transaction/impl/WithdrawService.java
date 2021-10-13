@@ -36,7 +36,7 @@ public class WithdrawService implements TransactionI {
 			AccountEntity accountEntity = accountService.getAccountEntity(transaction.getUserId());
 			var updatedAccount = withdrawAmount(transaction.getCurrency(), BigDecimal.valueOf(transaction.getAmount()), accountEntity);
 			accountService.saveAccountEntity(updatedAccount);
-			WithdrawHistoricEntity historicEntity = new WithdrawHistoricEntity();
+			var historicEntity = new WithdrawHistoricEntity();
 			historicEntity.setUserAccount(updatedAccount.getUsers().stream()
 					.filter(u -> u.getId() == (transaction.getUserId())).findFirst()
 					.orElseThrow(() -> new BusinessException("User not found.")));

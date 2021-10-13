@@ -7,8 +7,6 @@ import com.galvao.wallet.infrastructure.repository.AccountRepository;
 
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -28,11 +26,8 @@ public class AccountService {
 	}
 
 	public AccountEntity getAccountEntity(Long userId) {
-		Optional<AccountEntity> accountEntityOptional = accountRepository.findAccountEntityByUserId(userId);
-		if (accountEntityOptional.isEmpty()) {
-			throw new BusinessException(String.format("User %s not found.", userId));
-		}
-		return accountEntityOptional.get();
+		return accountRepository.findAccountEntityByUserId(userId)
+				.orElseThrow(() -> new BusinessException(String.format("User %s not found.", userId)));
 	}
 
 	public void saveAccountEntity(AccountEntity accountEntity) {

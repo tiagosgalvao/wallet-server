@@ -35,7 +35,7 @@ public class DepositService implements TransactionI {
 			AccountEntity accountEntity = accountService.getAccountEntity(transaction.getUserId());
 			var updatedAccount = addAmount(transaction.getCurrency(), BigDecimal.valueOf(transaction.getAmount()), accountEntity);
 			accountService.saveAccountEntity(updatedAccount);
-			DepositHistoricEntity historicEntity = new DepositHistoricEntity();
+			var historicEntity = new DepositHistoricEntity();
 			historicEntity.setUserAccount(updatedAccount.getUsers().stream()
 					.filter(u -> transaction.getUserId() == (u.getId())).findFirst()
 					.orElseThrow(() -> new BusinessException("User not found.")));

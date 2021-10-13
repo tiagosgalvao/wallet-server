@@ -4,7 +4,6 @@ import com.galvao.wallet.exception.BusinessException;
 import com.galvao.wallet.grpc.Transaction;
 import com.galvao.wallet.grpc.TransactionRequest;
 import com.galvao.wallet.grpc.service.dto.TransactionDto;
-import com.galvao.wallet.infrastructure.entity.impl.AccountEntity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.DltHandler;
@@ -21,8 +20,6 @@ import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +41,7 @@ public class TransactionManagerService {
 
 	public void start(Transaction.Type transactionType, TransactionRequest request) {
 		validateGrpcRequest(request);
-		AccountEntity accountEntity = accountService.getAccountEntity(request.getUserId());
+		var accountEntity = accountService.getAccountEntity(request.getUserId());
 		var transaction = Transaction.newBuilder()
 				.setType(transactionType)
 				.setAccountId(accountEntity.getId())
@@ -61,8 +58,8 @@ public class TransactionManagerService {
 				.amount(BigDecimal.valueOf(transactionRequest.getAmount()))
 				.currency(transactionRequest.getCurrency().name())
 				.build();
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
+		var factory = Validation.buildDefaultValidatorFactory();
+		var validator = factory.getValidator();
 		Set<ConstraintViolation<TransactionDto>> violations = validator.validate(transactionDto);
 		if (!CollectionUtils.isEmpty(violations)) {
 			violations.forEach(v -> {
