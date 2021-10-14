@@ -138,12 +138,12 @@ One way is to execute the `main` method in the`com.galvao.wallet.WalletApplicati
 
 NB! to run locally local profile must be set
 
-using command line `-Dspring.profiles.active=staging`
+using command line `-Dspring.profiles.active=local`
 
 Alternatively you can use the [Spring Boot Gradle plugin](https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/) like so:
 
 ```shell
-./gradlew bootRun
+./gradlew bootRun -Dspring.profiles.active=local 
 ```
 
 * compiles Java classes to the /target directory
@@ -190,11 +190,6 @@ GRANT ALL ON DATABASE wallet TO app_user;
 ```
 ```
 SHOW USERS;
-```
-
-To make sure the database is up to date, checkout the latest version of the project and from the root folder run:
-```
-$ ./gradlew migrateLocal
 ```
 
 ## External Tools Used
